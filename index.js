@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const fs = require('fs');
 
 const preparePageForTests = async (page) => {
   // Pass the User-Agent Test.
@@ -22,14 +23,21 @@ const preparePageForTests = async (page) => {
   //await page.screenshot({ path: "screnshot.png" });
 
   const result = await page.evaluate(() => {
-    return Array.from(document.querySelectorAll("div.ag-react-container")).map(
-      (x) => x.textContent
-    );
+    return Array.from(document.querySelectorAll("a.ag-cell-content-link")).map((x) => x.title).filter(x => x != "");
   });
 
-  console.log(JSON.stringify(result));
+  let boat_names = result.map((x) => x.slice(18))
 
-  //console.log("closing");
+  let epoch = Date.now();
+
+  let data = {"timestamp": epoch, "boats": boat_names}
+
+  const filename = "dundee_port_data.json";
+
+  const file = fs.readFileSync(filename, 'utf8')
+  let file_json = JSON.parse(file);
+  file_json.push(data);
+  fs.writeFileSync(filename, JSON.stringify(file_json, null, 2), "utf-8");
 
   await browser.close();
 })();
