@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1633634752468,
+    "timestamp": 1633635038285,
     "boats": [
       {
         "boat_name": "SEVEN PEGASUS",
@@ -38,76 +38,6 @@
         "boat_name": "TAYBIRD",
         "boat_imo": "0"
       }
-    ]
-  },
-  {
-    "timestamp": 1633632042890,
-    "boats": [
-      "SEVEN PEGASUS",
-      "KAMARINA",
-      "TEAL",
-      "FORTH TIGER",
-      "ROWAN GORILLA VII",
-      "COLLIE T",
-      "TAYBIRD",
-      "PV TAYBIRD",
-      "TAYBIRD"
-    ]
-  },
-  {
-    "timestamp": 1633632776357,
-    "boats": [
-      "SEVEN PEGASUS",
-      "KAMARINA",
-      "TEAL",
-      "FORTH TIGER",
-      "ROWAN GORILLA VII",
-      "COLLIE T",
-      "TAYBIRD",
-      "PV TAYBIRD",
-      "TAYBIRD"
-    ]
-  },
-  {
-    "timestamp": 1633633470324,
-    "boats": [
-      "SEVEN PEGASUS",
-      "KAMARINA",
-      "TEAL",
-      "FORTH TIGER",
-      "COLLIE T",
-      "ROWAN GORILLA VII",
-      "TAYBIRD",
-      "PV TAYBIRD",
-      "TAYBIRD"
-    ]
-  },
-  {
-    "timestamp": 1633633853372,
-    "boats": [
-      "SEVEN PEGASUS",
-      "KAMARINA",
-      "TEAL",
-      "FORTH TIGER",
-      "ROWAN GORILLA VII",
-      "COLLIE T",
-      "TAYBIRD",
-      "PV TAYBIRD",
-      "TAYBIRD"
-    ]
-  },
-  {
-    "timestamp": 1633634593374,
-    "boats": [
-      "SEVEN PEGASUS",
-      "KAMARINA",
-      "TEAL",
-      "FORTH TIGER",
-      "COLLIE T",
-      "ROWAN GORILLA VII",
-      "TAYBIRD",
-      "PV TAYBIRD",
-      "TAYBIRD"
     ]
   }
 ]
