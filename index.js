@@ -10,9 +10,9 @@ const preparePageForTests = async (page) => {
 
 (async () => {
   const browser = await puppeteer.launch({
-    //headless: true,
-    //executablePath: '/usr/bin/chromium-browser',
-    //args: ['--no-sandbox', '--disable-setuid-sandbox']
+    headless: true,
+    executablePath: '/usr/bin/chromium-browser',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
   const page = await browser.newPage();
   const url =
