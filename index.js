@@ -9,15 +9,14 @@ const preparePageForTests = async (page) => {
 };
 
 (async () => {
-const browser = await puppeteer.launch({
-	headless: true,
-	executablePath: '/usr/bin/chromium-browser',
-	args: ['--no-sandbox', '--disable-setuid-sandbox']
-});
+  const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: '/usr/bin/chromium-browser',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
   const page = await browser.newPage();
   const url =
     "https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|DUNDEE|current_port_in=735";
-  const url2 = "https://learnwebcode.github.io/practice-requests/";
   await page.goto(url);
 
   await page.waitForNavigation({
