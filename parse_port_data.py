@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -133,9 +134,21 @@ if __name__ == "__main__":
     # print(boat_data["time first in port"])
     # print(boats["SEVEN PEGASUS"])
 
-    boat_data.to_csv(fr"boat_data_({date_start}_to_{date_end}).csv", index=False)
+    fname = fr"boat_data_({date_start}_to_{date_end}).csv"
+    boat_data.to_csv(fname, index=False)
+    print(f"data saved as {fname}")
 
+    # time_datetime = []
+    # for i in range(len(time)):
+    # time_datetime.append(
+    # datetime.fromtimestamp(time[i]).strftime("%d-%m-%y %H:%M:%S")
+    # )
+
+    print("generating figures...")
     for boat in boats.keys():
+        print(boat)
         plt.plot(time, boats[boat]["in_port"])
         plt.title(f"{boat} imo={boats[boat]['imo']} 1=in port 0=not in port")
+        plt.xlabel("time (epoch)")
         plt.savefig(f"./boats_in_port_figs/{boat}_data.png")
+        plt.close()
