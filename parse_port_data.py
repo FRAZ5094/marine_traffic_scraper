@@ -126,7 +126,7 @@ if __name__ == "__main__":
             "time first in port": time_first_in_port,
             "number of times visited port": number_of_times_visited_port,
             "number of times out of port": number_of_times_out_of_port,
-            "average time spend in port per visit": average_time_spent_in_port_per_visit,
+            "average time spend in port per visit (mins)": average_time_spent_in_port_per_visit,
             "percentage of time in port": percent_in_port,
         }
     )

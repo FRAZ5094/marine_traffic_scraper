@@ -1,4 +1,4 @@
-boat names,imo,time first in port,number of times visited port,number of times out of port,average time spend in port per visit,percentage of time in port
+boat names,imo,time first in port,number of times visited port,number of times out of port,average time spend in port per visit (mins),percentage of time in port
 SEVEN PEGASUS,9392509,07-10-21 20:38:35,1,1,6,1
 KAMARINA,9499644,07-10-21 20:38:35,1,1,40,9
 TEAL,0,07-10-21 20:38:35,1,0,427,100
