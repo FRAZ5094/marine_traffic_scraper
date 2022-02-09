@@ -49,8 +49,7 @@ if __name__ == "__main__":
     print("percentage of time that at least 1 viable boat is in port:", (number_of_shore_power_timestamps/number_of_timestamps)*100, "%")
     #print(viable_in_port)
 
-
-    #print(sorted(boat_occurrences.items(), key=lambda x: x[1]))
+    sorted_boat_occurrences=sorted(boat_occurrences.items(), reverse=True, key=lambda x: x[1])
 
     #print(len(boat_occurrences))
     #print(viable_boats)
@@ -58,7 +57,18 @@ if __name__ == "__main__":
     mean_viable_boats=sum(viable_in_port)/len(viable_in_port)
     print("median: ", median_viable_boats)
     print("mean: ", mean_viable_boats)
-    plt.plot(viable_in_port)
-    plt.ylabel("Number of viable boats in port")
-    plt.xlabel("timestamp index")
+    #plt.plot(viable_in_port)
+    #plt.ylabel("Number of viable boats in port")
+    #plt.xlabel("timestamp index")
+    #plt.show()
+
+
+    boats=[]
+    occurrences=[]
+
+    for i in range(len(sorted_boat_occurrences)):
+        boats.append(sorted_boat_occurrences[i][0])
+        occurrences.append(sorted_boat_occurrences[i][1])
+
+    plt.bar(boats,occurrences)
     plt.show()
