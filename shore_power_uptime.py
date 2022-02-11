@@ -51,16 +51,16 @@ if __name__ == "__main__":
 
     sorted_boat_occurrences=sorted(boat_occurrences.items(), reverse=True, key=lambda x: x[1])
 
-    #print(len(boat_occurrences))
+    print(len(boat_occurrences))
     #print(viable_boats)
     median_viable_boats=median(viable_in_port)
     mean_viable_boats=sum(viable_in_port)/len(viable_in_port)
     print("median: ", median_viable_boats)
     print("mean: ", mean_viable_boats)
-    #plt.plot(viable_in_port)
-    #plt.ylabel("Number of viable boats in port")
-    #plt.xlabel("timestamp index")
-    #plt.show()
+    plt.figure()
+    plt.plot(viable_in_port)
+    plt.ylabel("Number of viable boats in port")
+    plt.xlabel("timestamp index")
 
 
     boats=[]
@@ -70,5 +70,9 @@ if __name__ == "__main__":
         boats.append(sorted_boat_occurrences[i][0])
         occurrences.append(sorted_boat_occurrences[i][1])
 
+    plt.figure()
     plt.bar(boats,occurrences)
+    plt.xticks([])
+    plt.xlabel("Top boats")
+    plt.ylabel("Number of times found in port")
     plt.show()
