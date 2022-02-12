@@ -16,7 +16,20 @@ def read_viable_boats_file():
 
     return lines
 
-    
+def uptime(data,boats):
+    # print(boats)
+    number_of_timestamps=0
+    number_of_shore_power_timestamps=0
+    for i in range(len(data)):
+        number_of_timestamps+=1
+        found_in_this_timestamp=False
+        for name in data[i]["boats"]:
+            if name["boat_name"] in boats:
+                if not found_in_this_timestamp:
+                    number_of_shore_power_timestamps+=1
+                    found_in_this_timestamp=True
+
+    return  (number_of_shore_power_timestamps/number_of_timestamps)*100
 
 
 if __name__ == "__main__":
@@ -57,8 +70,8 @@ if __name__ == "__main__":
     mean_viable_boats=sum(viable_in_port)/len(viable_in_port)
     print("median: ", median_viable_boats)
     print("mean: ", mean_viable_boats)
-    plt.figure()
-    plt.plot(viable_in_port)
+    # plt.figure()
+    # plt.plot(viable_in_port)
     plt.ylabel("Number of viable boats in port")
     plt.xlabel("timestamp index")
 
@@ -70,9 +83,35 @@ if __name__ == "__main__":
         boats.append(sorted_boat_occurrences[i][0])
         occurrences.append(sorted_boat_occurrences[i][1])
 
-    plt.figure()
-    plt.bar(boats,occurrences)
+    # plt.figure()
+    # plt.bar(boats,occurrences)
     plt.xticks([])
     plt.xlabel("Top boats")
     plt.ylabel("Number of times found in port")
+    # plt.show()
+
+    
+
+    print(occurrences)
+
+
+
+    uptimes=[]
+
+    n=10
+
+    if n>len(boats):
+        n=len(boats)
+
+    for i in range(n):
+        uptimes.append(uptime(data,boats[0:i+1]))
+
+    plt.plot(list(range(1,n+1)),uptimes)
+    plt.xticks(list(range(1,n+1)))
+    plt.xlabel("Number of top boats converted")
+    plt.ylabel("% uptime")
+    plt.title("Uptime of shore power vs number of top boats converted")
+    plt.grid()
+    plt.savefig("uptime_vs_boats_converted.png")
     plt.show()
+
