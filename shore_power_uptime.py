@@ -1,6 +1,7 @@
 import json 
 import matplotlib.pyplot as plt
-from statistics import median
+import numpy as np
+import matplotlib.ticker as tck
 
 def read_dundee_port_data():
     with open("dundee_port_data.json", "r") as f:
@@ -17,9 +18,9 @@ def read_viable_boats_file():
     return lines
 
 def uptime(data,boats):
-    # print(boats)
     number_of_timestamps=0
     number_of_shore_power_timestamps=0
+
     for i in range(len(data)):
         number_of_timestamps+=1
         found_in_this_timestamp=False
@@ -32,87 +33,86 @@ def uptime(data,boats):
     return  (number_of_shore_power_timestamps/number_of_timestamps)*100
 
 
-if __name__ == "__main__":
-    data = read_dundee_port_data()
-    viable_boats=read_viable_boats_file()
+data = read_dundee_port_data()
+viable_boats=read_viable_boats_file()
 
-    number_of_timestamps=0
-    number_of_shore_power_timestamps=0
+number_of_timestamps=0
+number_of_shore_power_timestamps=0
 
-    viable_in_port=[]
+viable_in_port=[]
 
-    boat_occurrences={}
+boat_occurrences={}
 
-    for i in range(len(data)):
-        viable_in_port.append(0)
-        number_of_timestamps+=1
-        found_in_this_timestamp=False
-        for name in data[i]["boats"]:
-            if name["boat_name"] in viable_boats:
-                if name["boat_name"] in boat_occurrences.keys():
-                    viable_in_port[i]+=1
-                    boat_occurrences[name["boat_name"]]+=1
-                else:
-                    boat_occurrences[name["boat_name"]]=1
-                    viable_in_port[i]+=1
-                if not found_in_this_timestamp:
-                    number_of_shore_power_timestamps+=1
-                    found_in_this_timestamp=True
-    
-    print("percentage of time that at least 1 viable boat is in port:", (number_of_shore_power_timestamps/number_of_timestamps)*100, "%")
-    #print(viable_in_port)
-
-    sorted_boat_occurrences=sorted(boat_occurrences.items(), reverse=True, key=lambda x: x[1])
-
-    print(sorted_boat_occurrences)
-
-    #print(len(boat_occurrences))
-    #print(viable_boats)
-    median_viable_boats=median(viable_in_port)
-    mean_viable_boats=sum(viable_in_port)/len(viable_in_port)
-    print("median: ", median_viable_boats)
-    print("mean: ", mean_viable_boats)
-    plt.figure()
-    #plt.plot(viable_in_port)
-    plt.ylabel("Number of viable boats in port")
-    plt.xlabel("timestamp index")
+for i in range(len(data)):
+    viable_in_port.append(0)
+    number_of_timestamps+=1
+    found_in_this_timestamp=False
+    for name in data[i]["boats"]:
+        if name["boat_name"] in viable_boats:
+            if name["boat_name"] in boat_occurrences.keys():
+                viable_in_port[i]+=1
+                boat_occurrences[name["boat_name"]]+=1
+            else:
+                boat_occurrences[name["boat_name"]]=1
+                viable_in_port[i]+=1
+            if not found_in_this_timestamp:
+                number_of_shore_power_timestamps+=1
+                found_in_this_timestamp=True
 
 
-    boats=[]
-    occurrences=[]
+sorted_boat_occurrences=sorted(boat_occurrences.items(), reverse=True, key=lambda x: x[1])
 
-    for i in range(len(sorted_boat_occurrences)):
-        boats.append(sorted_boat_occurrences[i][0])
-        occurrences.append(sorted_boat_occurrences[i][1])
+mean_viable_boats=sum(viable_in_port)/len(viable_in_port)
 
-    # plt.figure()
-    #plt.bar(boats,occurrences)
-    plt.xticks([])
-    plt.xlabel("Top boats")
-    plt.ylabel("Number of times found in port")
-    # plt.show()
+plt.rcParams['axes.xmargin'] = 0
+plt.figure()
+plt.plot(viable_in_port)
+plt.axhline(y=mean_viable_boats,color="r",linestyle="--")
+plt.ylabel("Number of viable boats in port")
+plt.xlabel("Time")
+plt.grid()
+plt.ylim([0,max(viable_in_port)+1])
+plt.xticks([])
+plt.savefig("number_of_viable_boats_in_port.png")
+#fig 4
 
-    
+boats=[]
+occurrences=[]
 
-    print(occurrences)
+for i in range(len(sorted_boat_occurrences)):
+    boats.append(sorted_boat_occurrences[i][0])
+    occurrences.append(sorted_boat_occurrences[i][1])
 
+plt.rcParams['axes.xmargin'] = 0
+a=9
+plt.figure(figsize=(a,a/(4/3)),dpi=80)
+n=30
+plt.bar(range(1,n+1),(np.array(occurrences[0:n])/len(data))*100,align="center",width=0.8)
+plt.xticks(range(1,n+1))
+plt.yticks(range(0,52,2))
+plt.xlabel("Vessels")
+plt.ylabel("Percentage of timestamps in port")
+plt.grid(which="both",axis="y")
+plt.savefig("number_of_occurences_of_boats.png")
+#fig 2
 
+uptimes=[]
 
-    uptimes=[]
+n=6
+if n>len(boats):
+    n=len(boats)
 
-    n=10
+for i in range(n):
+    uptimes.append(uptime(data,boats[0:i+1]))
 
-    if n>len(boats):
-        n=len(boats)
-
-    for i in range(n):
-        uptimes.append(uptime(data,boats[0:i+1]))
-
-    plt.plot(list(range(1,n+1)),uptimes)
-    plt.xticks(list(range(1,n+1)))
-    plt.xlabel("Number of top boats converted")
-    plt.ylabel("% uptime")
-    plt.title("Uptime of shore power vs number of top boats converted")
-    plt.grid()
-    plt.savefig("uptime_vs_boats_converted.png")
-    plt.show()
+plt.rcParams['axes.xmargin'] = 0
+plt.figure()
+plt.plot(list(range(1,n+1)),uptimes)
+plt.xticks(list(range(1,n+1)))
+plt.xlabel("Number of top vessels converted")
+plt.ylabel("Percentage uptime")
+plt.ylim([0,105])
+plt.grid(which="both", axis="both")
+plt.yticks(range(0,105,5))
+plt.savefig("uptime_vs_boats_converted.png")
+#fig 3
